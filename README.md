@@ -2,7 +2,7 @@
 
 ## Description
 
-PyScript Demo app.
+PyScript Demo app, [hosted](https://katanaml.github.io) on GitHub.io
 
 ## Author
 
