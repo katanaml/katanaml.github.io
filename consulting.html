@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="studio">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document data extraction on your own hardware | Katana ML</title>
+<meta name="description" content="Katana ML sets up Sparrow, an open-source document extraction engine, on your own infrastructure and runs a pilot on your documents. Your data never leaves your network." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%22251.5%20308%20992%20992%22%3E%3Cg%20transform%3D%22translate(328%2C%20328)%20scale(34.4)%22%3E%3Cg%20id%3D%22SvgjsG164385%22%20transform%3D%22scale(0.21645021645021648)%22%20opacity%3D%221%22%3E%3Cg%20id%3D%22SvgjsG164386%22%20class%3D%22WBVU0xODA%22%20transform%3D%22translate(-0.918859925002799%2C%20-1.2200887918732244)%20scale(1.3145349427794013)%22%20light-content%3D%22false%22%20fill%3D%22%2319c08a%22%3E%3Cpath%20d%3D%22M47%201.732l37.301%2021.536a6%206%200%200%201%203%205.196v43.072a6%206%200%200%201-3%205.196L47%2098.268a6%206%200%200%201-6%200L3.699%2076.732a6%206%200%200%201-3-5.196V28.464a6%206%200%200%201%203-5.196L41%201.732a6%206%200%200%201%206%200z%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3Cg%20id%3D%22SvgjsG164387%22%20class%3D%2260oK13Fz9R%22%20transform%3D%22translate(20.51677122803198%2C%2029.808867341036148)%20scale(1.1375980622942934)%22%20light-content%3D%22true%22%20fill%3D%22white%22%3E%3Cpath%20d%3D%22M44%2046h-2v-8.623l-.147-.012s-1.353-.09-1.853-.121V46H24v-8.755c-.6.036-1.188.079-1.772.124l-.228.016V46h-2a5%205%200%200%200-5%205%201%201%200%200%200%201%201h32a1%201%200%200%200%201-1%205%205%200%200%200-5-5zM22%2027.366c.611-.046%201.241-.085%201.884-.122l.116-.006v-4.993c-.6.036-1.188.079-1.772.124l-.228.016zm18-.178l.1.005c.634.027%201.272.059%201.9.1v-4.92c-.05%200-.1-.009-.147-.012%200%200-1.351-.09-1.853-.121z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M5.51%2022.5c2.25-.43%206.609-1.18%2012.188-1.74l.352%201.58a1%201%200%200%200%20.98.78.82.82%200%200%200%20.22-.02%201%201%200%200%200%20.76-1.19l-.3-1.35c.74-.06%201.51-.13%202.29-.18.66-.05%201.32-.1%202-.14%202.54-.15%205.23-.24%208-.24s5.46.09%208%20.24c.68.04%201.35.09%202%20.13a140.052%20140.052%200%200%201%2018.78%202.6.78.78%200%200%200%20.22.03%201.01%201.01%200%200%200%20.82-.43.978.978%200%200%200%20.01-1.12l-2-3a.955.955%200%200%200-.12-.16c-1.99-1.98-8.48-3.41-17.71-3.99-.65-.05-1.32-.08-2-.11Q36.25%2014%2032%2014c-2.79%200-5.48.09-8.03.24l-1.9.12c-1.27.09-2.49.2-3.67.31l-.42-1.89a1%201%200%201%200-1.96.44l.367%201.65c-5.508.61-9.777%201.37-12.007%201.82a2.961%202.961%200%200%200-1.3%205.19%202.929%202.929%200%200%200%202.43.62zm11.316-5.66l.432%201.94c-.87.09-1.709.18-2.518.28l-.63-1.91c.869-.1%201.767-.21%202.716-.31zm-4.746.58l.64%201.9c-1.06.14-2.07.28-3%20.43l-.48-1.9c.87-.14%201.82-.28%202.84-.43zm-7.31%201.23c.66-.13%201.5-.29%202.5-.47l.47%201.89c-.98.17-1.85.32-2.6.47a.943.943%200%200%201-.79-.2.99.99%200%200%201-.35-.75.954.954%200%200%201%20.77-.94zm55.06%2014.8a.955.955%200%200%200-.12-.16c-1.99-1.98-8.48-3.41-17.71-3.99-.65-.05-1.32-.08-2-.11q-3.75-.2-8-.19c-2.78%200-5.46.09-8%20.24-.68.04-1.35.08-2%20.13q-1.86.135-3.6.3l-.42-1.89a1%201%200%200%200-1.96.44l.367%201.65c-5.508.61-9.777%201.37-12.007%201.82a2.961%202.961%200%200%200-1.3%205.19%202.929%202.929%200%200%200%202.43.62c2.25-.43%206.609-1.18%2012.188-1.74l.352%201.58a1%201%200%200%200%20.98.78.82.82%200%200%200%20.22-.02%201%201%200%200%200%20.76-1.19l-.3-1.35c.74-.06%201.51-.13%202.29-.18.66-.05%201.32-.1%202-.14%202.54-.15%205.23-.24%208-.24s5.46.09%208%20.24c.68.04%201.35.09%202%20.13a140.052%20140.052%200%200%201%2018.78%202.6.78.78%200%200%200%20.22.03%201.01%201.01%200%200%200%20.82-.43.978.978%200%200%200%20.01-1.12zM5.14%2035.54a.943.943%200%200%201-.79-.2.99.99%200%200%201-.35-.75.954.954%200%200%201%20.77-.94c.66-.13%201.5-.29%202.5-.47l.47%201.89c-.98.17-1.85.32-2.6.47zm4.58-.79l-.48-1.9c.87-.14%201.82-.28%202.84-.43l.64%201.9c-1.06.14-2.07.28-3%20.43zm5.02-.69l-.63-1.91c.869-.1%201.767-.21%202.716-.31l.432%201.94c-.87.09-1.709.18-2.518.28z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M23.97%2012.24A.986.986%200%200%200%2024%2012v-1a1%201%200%200%200-2%200v1a.857.857%200%200%200%20.07.36zM42%2011a1%201%200%200%200-2%200v1.19c.68.03%201.35.06%202%20.11z%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ============ THEME TOKENS ============ */
+  :root{
+    --font-display:'Space Grotesk',sans-serif;
+    --font-sans:'Manrope',sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,monospace;
+    --maxw:1180px;
+    --pad:clamp(20px,5vw,40px);
+    --section:clamp(76px,11vw,138px);
+    --radius-btn:11px;
+    --flame:var(--accent);
+  }
+
+  /* ---- STUDIO (warm paper, emerald accent, editorial serif) ---- */
+  [data-theme="studio"]{
+    --bg:#f3ecdd;--surface:#fbf6ec;--surface-2:#f0e8d7;--surface-hover:#fffaf1;
+    --border:rgba(54,42,18,.14);--border-strong:rgba(54,42,18,.24);
+    --text:#241f16;--text-2:#5c5446;--text-3:#8b8373;
+    --accent:#0f8f63;--accent-bright:#0c7a54;--accent-soft:rgba(15,143,99,.12);--accent-line:rgba(15,143,99,.45);--ink:#fbf6ec;
+    --header-bg:rgba(243,236,221,.84);--panel-bg:rgba(243,236,221,.97);--dot:#cabd9f;
+    --shadow:0 38px 78px -38px rgba(72,54,20,.34);--shadow-sm:0 28px 60px -38px rgba(72,54,20,.3);
+    --logo-color:var(--accent);
+    --font-display:'Newsreader',Georgia,serif;
+    --font-sans:'Manrope',sans-serif;
+    --radius-btn:10px;
+  }
+  /* editorial treatment for the studio theme */
+  [data-theme="studio"] h1,[data-theme="studio"] h2,[data-theme="studio"] h3{font-weight:500;letter-spacing:-.012em}
+  [data-theme="studio"] .caption p,[data-theme="studio"] .prod-callout blockquote,[data-theme="studio"] .doc-list .item{font-weight:500}
+  [data-theme="studio"] .hero h1{letter-spacing:-.018em}
+  [data-theme="studio"] .eyebrow{letter-spacing:.26em}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font-sans);
+    font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    overflow-x:hidden;transition:background .4s ease,color .4s ease;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:var(--ink)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--accent);white-space:nowrap;display:inline-flex;align-items:center;gap:.65em;
+  }
+  .eyebrow::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--flame)}
+  h1,h2,h3{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em;line-height:1.05}
+
+  /* brand mark (inline, theme-colored) */
+  .brand-mark{display:block;transition:color .4s ease}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;inset:0 0 auto 0;z-index:100;
+    transition:background .3s ease,border-color .3s ease,backdrop-filter .3s ease;border-bottom:1px solid transparent}
+  header.scrolled{background:var(--header-bg);backdrop-filter:blur(14px) saturate(140%);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--border)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand .brand-mark{width:34px;height:34px}
+  .brand b{font-family:var(--font-display);font-weight:600;font-size:1.12rem;letter-spacing:-.01em;white-space:nowrap}
+  .nav-links{display:flex;align-items:center;gap:6px}
+  .nav-links a{font-size:.92rem;font-weight:500;color:var(--text-2);padding:.5em .85em;border-radius:8px;transition:color .18s,background .18s}
+  .nav-links a:hover{color:var(--text);background:var(--surface-2)}
+  .nav-cta{margin-left:6px;color:var(--ink) !important;background:var(--accent);font-weight:600;
+    padding:.55em 1.05em !important;border-radius:var(--radius-btn);transition:background .18s,transform .18s}
+  .nav-links a.nav-cta:hover{background:var(--accent-bright);color:var(--ink);transform:translateY(-1px)}
+  .menu-btn{display:none;background:none;border:1px solid var(--border-strong);border-radius:9px;
+    width:42px;height:42px;cursor:pointer;align-items:center;justify-content:center;color:var(--text)}
+  .menu-btn span,.menu-btn span::before,.menu-btn span::after{content:"";display:block;width:17px;height:1.6px;background:currentColor;position:relative;transition:.2s}
+  .menu-btn span::before{position:absolute;top:-5px}
+  .menu-btn span::after{position:absolute;top:5px}
+  .mobile-panel{display:none;border-top:1px solid var(--border);background:var(--panel-bg);
+    backdrop-filter:blur(14px);padding:14px var(--pad) 22px}
+  .mobile-panel.open{display:block}
+  .mobile-panel a{display:block;padding:13px 4px;font-size:1.05rem;color:var(--text);border-bottom:1px solid var(--border)}
+  .mobile-panel a:last-child{border-bottom:none}
+
+  /* ---------- BUTTONS ---------- */
+  .btn{display:inline-flex;align-items:center;gap:.6em;font-family:var(--font-sans);white-space:nowrap;
+    font-weight:600;font-size:.98rem;padding:.82em 1.45em;border-radius:var(--radius-btn);cursor:pointer;
+    border:1px solid transparent;transition:transform .18s,background .18s,border-color .18s,color .18s}
+  .btn-primary{background:var(--accent);color:var(--ink)}
+  .btn-primary:hover{background:var(--accent-bright);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--text);border-color:var(--border-strong)}
+  .btn-ghost:hover{border-color:var(--text-3);background:var(--surface-2);transform:translateY(-2px)}
+  .btn .arrow{transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding-block:calc(68px + var(--section)) clamp(48px,7vw,80px);text-align:center}
+  .hero .eyebrow{justify-content:center;margin-bottom:26px}
+  .hero h1{font-size:clamp(1.55rem,5.4vw,3.6rem);max-width:none;margin:0 auto;white-space:nowrap}
+  .hero h1 .h1-sm{display:none}
+  .subline{font-family:var(--font-mono);font-size:clamp(.82rem,1.6vw,.98rem);color:var(--text-2);
+    margin-top:24px;display:flex;flex-wrap:wrap;justify-content:center;gap:.4em 1em}
+  .subline span{display:inline-flex;align-items:center;gap:.7em;white-space:nowrap}
+  .subline span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+  .hero-body{max-width:60ch;margin:30px auto 0;color:var(--text-2);font-size:clamp(1.02rem,1.5vw,1.16rem)}
+  .hero-body b{color:var(--text);font-weight:600}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;margin-top:38px}
+  .stars{display:inline-flex;align-items:center;gap:.55em;font-family:var(--font-mono);font-size:.9rem;
+    color:var(--text-2);padding:.6em 1em;border:1px solid var(--border);border-radius:999px;background:var(--surface)}
+  .stars svg{width:15px;height:15px;fill:var(--accent)}
+  .stars b{color:var(--text);font-weight:500}
+
+  .hero-consult{margin-top:26px;font-size:.98rem;color:var(--text-2)}
+  .hero-consult a{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:.35em;align-items:baseline}
+  .hero-consult b{color:var(--accent);font-weight:600;border-bottom:1px solid var(--accent-line)}
+  .hero-consult .arrow{color:var(--accent);transition:transform .2s}
+  .hero-consult a:hover .arrow{transform:translateX(3px)}
+  a{color:inherit}a:hover{color:inherit}
+  /* ---------- WINDOW FRAME ---------- */
+  .window{border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden;
+    box-shadow:var(--shadow);transition:transform .4s,box-shadow .4s}
+  .window-bar{display:flex;align-items:center;gap:8px;padding:0 16px;height:46px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+  .dots{display:flex;gap:7px}
+  .dots i{width:11px;height:11px;border-radius:50%;background:var(--dot);display:block}
+  .window-url{flex:1;text-align:center;font-family:var(--font-mono);font-size:.78rem;color:var(--text-3);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .window-url::before{content:"";display:inline-block;width:7px;height:7px;border:1.4px solid var(--accent);
+    border-radius:50%;margin-right:.6em;vertical-align:middle;opacity:.8}
+  .window img{width:100%;height:auto}
+
+  .product{padding-bottom:var(--section)}
+  .product .window{max-width:1080px;margin:0 auto}
+  .product:hover .window{transform:translateY(-4px)}
+  .caption{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;max-width:1080px;margin:30px auto 0}
+  .caption p{font-family:var(--font-display);font-size:clamp(1.15rem,2.4vw,1.7rem);font-weight:500;letter-spacing:-.01em;color:var(--text);max-width:22ch}
+  .caption a{color:var(--accent);font-weight:600;font-size:1.02rem;display:inline-flex;gap:.4em;align-items:center}
+  .caption a:hover .arrow{transform:translateX(4px)}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-head{max-width:640px;margin-bottom:clamp(40px,5vw,64px)}
+  .sec-head.center{margin-inline:auto;text-align:center}
+  .sec-head h2{font-size:clamp(1.95rem,3.8vw,2.85rem);margin-top:18px}
+  .sec-head p{color:var(--text-2);font-size:clamp(1rem,1.5vw,1.15rem);margin-top:16px}
+
+  /* ---------- DIFFERENTIATORS ---------- */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .tile{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:34px 30px;transition:transform .25s,border-color .25s,background .25s}
+  .tile:hover{transform:translateY(-4px);border-color:var(--border-strong);background:var(--surface-hover)}
+  .tile .idx{font-family:var(--font-mono);font-size:.8rem;color:var(--accent);letter-spacing:.1em}
+  .tile .mark{width:34px;height:34px;margin:18px 0 22px;position:relative}
+  .tile .mark svg{width:100%;height:100%;display:block}
+  .tile h3{font-size:1.32rem;letter-spacing:-.01em}
+  .tile p{color:var(--text-2);margin-top:13px;font-size:1rem}
+
+  /* ---------- PLATFORM / PIPELINES ---------- */
+  .pipes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .pipe{border:1px solid var(--border);border-top:2px solid var(--accent);border-radius:0 0 14px 14px;
+    background:var(--surface);padding:30px 28px;transition:transform .25s,background .25s,border-color .25s}
+  .pipe:hover{transform:translateY(-4px);background:var(--surface-hover)}
+  .pipe-tag{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+  .pipe h3{font-size:1.42rem;letter-spacing:-.01em;margin:15px 0 12px}
+  .pipe p{color:var(--text-2);font-size:1rem}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden}
+  .step{padding:38px 34px;position:relative;min-width:0}
+  .step:not(:last-child){border-right:1px solid var(--border)}
+  .step .num{font-family:var(--font-mono);font-size:.92rem;color:var(--text-3)}
+  .step .num b{color:var(--accent);font-weight:500}
+  .step h3{font-size:1.4rem;margin:20px 0 12px;display:flex;align-items:center;gap:12px}
+  .step h3::before{content:"";width:9px;height:9px;background:var(--accent);border-radius:2px;transform:rotate(45deg)}
+  .step p{color:var(--text-2);font-size:.99rem}
+  .step .snip{margin-top:18px;font-family:var(--font-mono);font-size:.78rem;color:#c7c7cf;max-width:100%;
+    background:#16181c;border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:12px 14px;white-space:pre;overflow-x:auto}
+  .step .snip .k{color:#3ddca0}
+  .step .snip .t{color:#e2b878}
+
+  /* ---------- CODE + SPLIT (extraction hints) ---------- */
+  .split{display:grid;grid-template-columns:1.02fr 1fr;gap:clamp(36px,5vw,60px);align-items:center}
+  .split>*{min-width:0}
+  .code{min-width:0;max-width:100%;font-family:var(--font-mono);font-size:clamp(.74rem,1.05vw,.84rem);line-height:1.8;color:#c7c7cf;
+    background:#16181c;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:22px 24px;white-space:pre;overflow-x:auto;box-shadow:var(--shadow-sm)}
+  .code .k{color:#3ddca0}.code .t{color:#e2b878}.code .c{color:#7a8290}
+  .hint-points{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:15px}
+  .hint-points li{display:flex;gap:13px;color:var(--text-2);font-size:1.02rem;line-height:1.5}
+  .hint-points li::before{content:"";flex:none;width:8px;height:8px;margin-top:.5em;background:var(--accent);border-radius:2px;transform:rotate(45deg)}
+  .hint-points b{color:var(--text);font-weight:600}
+
+  /* ---------- AGENT FLOW ---------- */
+  .flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap}
+  .flow .node{flex:1 1 0;min-width:164px;border:1px solid var(--border);border-radius:14px;background:var(--surface);
+    padding:26px 24px;transition:transform .25s,background .25s,border-color .25s}
+  .flow .node:hover{transform:translateY(-4px);background:var(--surface-hover);border-color:var(--border-strong)}
+  .flow .node .n{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.13em;color:var(--accent)}
+  .flow .node h3{font-size:1.2rem;margin:13px 0 9px;letter-spacing:-.01em}
+  .flow .node p{color:var(--text-2);font-size:.93rem;line-height:1.55}
+  .flow .sep{flex:0 0 auto;align-self:center;color:var(--accent);font-size:1.2rem;font-weight:600;opacity:.6}
+  .flow-note{margin-top:28px;display:flex;align-items:flex-start;gap:14px;color:var(--text-2);
+    font-size:1.04rem;line-height:1.55;border-left:3px solid var(--accent);padding-left:20px;max-width:74ch}
+  .flow-note b{color:var(--text);font-weight:600}
+  @media(max-width:900px){
+    .split{grid-template-columns:1fr;gap:32px}
+    .flow{flex-direction:column;align-items:stretch}
+    .flow .node{min-width:0}
+    .flow .sep{transform:rotate(90deg)}
+  }
+
+  /* ---------- DOC TYPES ---------- */
+  .doc-grid{display:grid;grid-template-columns:1fr 1.08fr;gap:clamp(36px,5vw,64px);align-items:center}
+  .doc-list{display:flex;flex-direction:column}
+  .doc-list .item{display:flex;align-items:center;gap:16px;padding:18px 2px;border-bottom:1px solid var(--border);
+    font-family:var(--font-display);font-weight:500;font-size:clamp(1.1rem,1.9vw,1.35rem);transition:color .2s,padding .2s}
+  .doc-list .item:first-child{border-top:1px solid var(--border)}
+  .doc-list .item:hover{color:var(--accent);padding-left:8px}
+  .doc-list .item .tk{width:18px;height:18px;flex:none;color:var(--accent)}
+  .doc-list .item .tk svg{width:100%;height:100%;display:block}
+  .doc-shot .window{box-shadow:var(--shadow-sm)}
+
+  /* ---------- IN PRODUCTION ---------- */
+  .prod-callout{border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:14px;background:var(--surface);padding:clamp(34px,5vw,56px)}
+  .prod-callout .eyebrow{margin-bottom:24px}
+  .prod-callout blockquote{font-family:var(--font-display);font-weight:500;letter-spacing:-.015em;
+    font-size:clamp(1.4rem,3vw,2.15rem);line-height:1.28;color:var(--text);max-width:24ch}
+  .prod-callout blockquote em{color:var(--accent);font-style:normal}
+
+  /* ---------- ABOUT ---------- */
+  .about{display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(40px,6vw,90px);align-items:start}
+  .about .body p{color:var(--text-2);font-size:clamp(1.04rem,1.6vw,1.18rem);margin-bottom:20px}
+  .about .body p b{color:var(--text);font-weight:600}
+  .about .cta-row{justify-content:flex-start;margin-top:34px}
+  .email-line{margin-top:16px;font-family:var(--font-mono);font-size:.9rem;color:var(--text-2)}
+  .about .body .email-line{font-size:.82rem}
+  .email-line a{color:var(--text);border-bottom:1px solid var(--border-strong);padding-bottom:1px;transition:color .18s,border-color .18s;overflow-wrap:anywhere;word-break:break-word}
+  .email-line a:hover{color:var(--accent);border-color:var(--accent)}
+  .sociallinks{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:30px;font-family:var(--font-mono);font-size:.86rem}
+  .sociallinks a{color:var(--text-2);display:inline-flex;align-items:center;gap:.5em;transition:color .18s}
+  .sociallinks a::before{content:"→";color:var(--accent);opacity:.7}
+  .sociallinks a:hover{color:var(--text)}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--border);padding:46px 0 60px;margin-top:var(--section)}
+  .foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px}
+  .foot .fbrand{display:flex;align-items:center;gap:11px}
+  .foot .fbrand .brand-mark{width:28px;height:28px}
+  .foot .fbrand b{font-family:var(--font-display);font-weight:600}
+  .foot .legal{color:var(--text-3);font-size:.88rem;line-height:1.5}
+  .foot .legal a{color:var(--text-2);border-bottom:1px solid var(--border-strong);padding-bottom:1px}
+  .foot .legal a:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .tiles{grid-template-columns:1fr}
+    .pipes{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
+    .step:not(:last-child){border-right:none;border-bottom:1px solid var(--border)}
+    .doc-grid{grid-template-columns:1fr}
+    .about{grid-template-columns:1fr;gap:28px}
+    .prod-callout blockquote{max-width:none}
+  }
+  @media (max-width:760px){
+    :root{--pad:28px}
+    .nav-links{display:none}
+    .menu-btn{display:flex}
+    .hero{padding-block:calc(68px + clamp(40px,14vw,80px)) clamp(48px,7vw,80px)}
+    .hero .eyebrow{margin-bottom:16px}
+    .hero h1{white-space:nowrap;font-size:clamp(1.75rem,7.4vw,2.35rem);line-height:1.14}
+    .hero h1 .h1-lg{display:none}
+    .hero h1 .h1-sm{display:inline}
+    .hero-body{margin-top:20px;font-size:1rem;max-width:33ch}
+    .cta-row{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .cta-row .btn{justify-content:center}
+    .cta-row .stars{grid-column:1 / -1;justify-self:center;margin-top:2px}
+    .caption{flex-direction:column;align-items:flex-start}
+  }
+
+  /* ---------- CONSULTING PAGE ---------- */
+  .nav-links a[aria-current="page"]{color:var(--text);background:var(--surface-2)}
+  .hero.consult h1{white-space:normal;max-width:17ch;font-size:clamp(2.05rem,6.2vw,3.7rem);line-height:1.08}
+  .hero.consult .hero-body{max-width:46ch}
+  .sec{padding-bottom:var(--section)}
+  .steps{gap:18px;border:none;background:none;border-radius:0;overflow:visible}
+  .steps .step{border:1px solid var(--border) !important;border-radius:16px;background:var(--surface);transition:transform .25s,border-color .25s,background .25s}
+  .steps .step:hover{transform:translateY(-4px);border-color:var(--border-strong) !important;background:var(--surface-hover)}
+  .problem blockquote{max-width:30ch}
+  .dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .dcell{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:22px 20px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;font-family:var(--font-display);font-weight:500;font-size:clamp(1.05rem,1.8vw,1.22rem);line-height:1.22;letter-spacing:-.01em;color:var(--text);text-wrap:pretty}
+  a.dcell{border-color:var(--accent-line);transition:transform .25s,background .25s,border-color .25s}
+  a.dcell:hover{transform:translateY(-4px);background:var(--surface-hover);border-color:var(--accent);color:var(--text)}
+  .watch{font-family:var(--font-sans);font-size:.84rem;font-weight:600;letter-spacing:0;color:var(--accent);display:inline-flex;align-items:center;gap:.55em}
+  .watch i{width:22px;height:22px;border-radius:50%;background:var(--accent);display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .watch i svg{width:8px;height:9px;margin-left:2px;fill:var(--ink)}
+  .playlist{margin-top:26px;font-weight:600;color:var(--accent);display:inline-flex;gap:.4em;align-items:center}
+  .playlist:hover{color:var(--accent-bright)}.playlist:hover .arrow{transform:translateX(3px)}.playlist .arrow{transition:transform .2s}
+  .proof{display:grid;grid-template-columns:1fr;gap:clamp(32px,5vw,60px);align-items:center}
+  .proof>*{min-width:0}
+  .video-frame{aspect-ratio:16/9;width:100%;display:block;border:0;background:var(--surface-2)}
+  .video-empty{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:var(--text-3);font-family:var(--font-mono);font-size:.84rem;background:var(--surface-2);text-align:center;padding:20px}
+  .proof .cta-row{justify-content:flex-start;margin-top:28px}
+  .proof .vlink{margin-top:18px;display:inline-flex;gap:.4em;font-weight:600;color:var(--accent)}
+  .final{text-align:center;max-width:640px;margin:0 auto}
+  .final h2{font-size:clamp(2rem,4.4vw,3.1rem);margin-top:18px}
+  .final .cta-row{margin-top:30px}
+  .final p{color:var(--text-2);margin-top:20px;font-size:clamp(1rem,1.5vw,1.1rem);text-wrap:pretty}
+  a:hover{color:inherit}
+  .vcap{padding:12px 16px;border-top:1px solid var(--border);font-size:.86rem;color:var(--text-2);font-family:var(--font-mono)}
+  #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:.92rem;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:100;max-width:calc(100vw - 32px);text-align:center}
+  #toast.show{opacity:1;transform:translate(-50%,0)}
+  @media(min-width:900px){.dgrid{grid-template-columns:repeat(4,minmax(0,1fr))}.proof{grid-template-columns:1.25fr 1fr}}
+  @media(max-width:760px){.hero.consult h1{font-size:clamp(1.95rem,8.6vw,2.6rem)}.consult .cta-row,.final .cta-row{grid-template-columns:1fr;max-width:320px;margin-inline:auto}.proof .cta-row{grid-template-columns:auto auto;justify-content:start;margin-inline:0;max-width:none}.proof .cta-row .stars{grid-column:auto;margin-top:0}}
+  @media(max-width:380px){.dgrid{grid-template-columns:1fr}.dcell{min-height:0}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><symbol id="katanaMark" viewBox="308 308 879 992"><g transform="translate(328, 328) scale(34.4)"><g id="SvgjsG164385" transform="scale(0.21645021645021648)" opacity="1"><g id="SvgjsG164386" class="WBVU0xODA" transform="translate(-0.918859925002799, -1.2200887918732244) scale(1.3145349427794013)" light-content="false" style="fill:var(--logo-color)"><path d="M47 1.732l37.301 21.536a6 6 0 0 1 3 5.196v43.072a6 6 0 0 1-3 5.196L47 98.268a6 6 0 0 1-6 0L3.699 76.732a6 6 0 0 1-3-5.196V28.464a6 6 0 0 1 3-5.196L41 1.732a6 6 0 0 1 6 0z"></path></g><g id="SvgjsG164387" class="60oK13Fz9R" transform="translate(20.51677122803198, 29.808867341036148) scale(1.1375980622942934)" light-content="true" fill="white"><path d="M44 46h-2v-8.623l-.147-.012s-1.353-.09-1.853-.121V46H24v-8.755c-.6.036-1.188.079-1.772.124l-.228.016V46h-2a5 5 0 0 0-5 5 1 1 0 0 0 1 1h32a1 1 0 0 0 1-1 5 5 0 0 0-5-5zM22 27.366c.611-.046 1.241-.085 1.884-.122l.116-.006v-4.993c-.6.036-1.188.079-1.772.124l-.228.016zm18-.178l.1.005c.634.027 1.272.059 1.9.1v-4.92c-.05 0-.1-.009-.147-.012 0 0-1.351-.09-1.853-.121z"></path><path d="M5.51 22.5c2.25-.43 6.609-1.18 12.188-1.74l.352 1.58a1 1 0 0 0 .98.78.82.82 0 0 0 .22-.02 1 1 0 0 0 .76-1.19l-.3-1.35c.74-.06 1.51-.13 2.29-.18.66-.05 1.32-.1 2-.14 2.54-.15 5.23-.24 8-.24s5.46.09 8 .24c.68.04 1.35.09 2 .13a140.052 140.052 0 0 1 18.78 2.6.78.78 0 0 0 .22.03 1.01 1.01 0 0 0 .82-.43.978.978 0 0 0 .01-1.12l-2-3a.955.955 0 0 0-.12-.16c-1.99-1.98-8.48-3.41-17.71-3.99-.65-.05-1.32-.08-2-.11Q36.25 14 32 14c-2.79 0-5.48.09-8.03.24l-1.9.12c-1.27.09-2.49.2-3.67.31l-.42-1.89a1 1 0 1 0-1.96.44l.367 1.65c-5.508.61-9.777 1.37-12.007 1.82a2.961 2.961 0 0 0-1.3 5.19 2.929 2.929 0 0 0 2.43.62zm11.316-5.66l.432 1.94c-.87.09-1.709.18-2.518.28l-.63-1.91c.869-.1 1.767-.21 2.716-.31zm-4.746.58l.64 1.9c-1.06.14-2.07.28-3 .43l-.48-1.9c.87-.14 1.82-.28 2.84-.43zm-7.31 1.23c.66-.13 1.5-.29 2.5-.47l.47 1.89c-.98.17-1.85.32-2.6.47a.943.943 0 0 1-.79-.2.99.99 0 0 1-.35-.75.954.954 0 0 1 .77-.94zm55.06 14.8a.955.955 0 0 0-.12-.16c-1.99-1.98-8.48-3.41-17.71-3.99-.65-.05-1.32-.08-2-.11q-3.75-.2-8-.19c-2.78 0-5.46.09-8 .24-.68.04-1.35.08-2 .13q-1.86.135-3.6.3l-.42-1.89a1 1 0 0 0-1.96.44l.367 1.65c-5.508.61-9.777 1.37-12.007 1.82a2.961 2.961 0 0 0-1.3 5.19 2.929 2.929 0 0 0 2.43.62c2.25-.43 6.609-1.18 12.188-1.74l.352 1.58a1 1 0 0 0 .98.78.82.82 0 0 0 .22-.02 1 1 0 0 0 .76-1.19l-.3-1.35c.74-.06 1.51-.13 2.29-.18.66-.05 1.32-.1 2-.14 2.54-.15 5.23-.24 8-.24s5.46.09 8 .24c.68.04 1.35.09 2 .13a140.052 140.052 0 0 1 18.78 2.6.78.78 0 0 0 .22.03 1.01 1.01 0 0 0 .82-.43.978.978 0 0 0 .01-1.12zM5.14 35.54a.943.943 0 0 1-.79-.2.99.99 0 0 1-.35-.75.954.954 0 0 1 .77-.94c.66-.13 1.5-.29 2.5-.47l.47 1.89c-.98.17-1.85.32-2.6.47zm4.58-.79l-.48-1.9c.87-.14 1.82-.28 2.84-.43l.64 1.9c-1.06.14-2.07.28-3 .43zm5.02-.69l-.63-1.91c.869-.1 1.767-.21 2.716-.31l.432 1.94c-.87.09-1.709.18-2.518.28z"></path><path d="M23.97 12.24A.986.986 0 0 0 24 12v-1a1 1 0 0 0-2 0v1a.857.857 0 0 0 .07.36zM42 11a1 1 0 0 0-2 0v1.19c.68.03 1.35.06 2 .11z"></path></g></g></g></symbol></svg>
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Katana ML home">
+      <svg class="brand-mark" aria-hidden="true"><use href="#katanaMark"></use></svg>
+      <b>Katana ML</b>
+    </a>
+    <nav class="nav-links">
+      <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Sparrow</a>
+      <a href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">GitHub</a>
+      <a href="consulting.html" aria-current="page">Consulting</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cta" href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Try Sparrow</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <a href="index.html">Home</a>
+    <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Sparrow</a>
+    <a href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">GitHub</a>
+    <a href="consulting.html">Consulting</a>
+    <a href="#contact">Contact</a>
+    <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Try Sparrow →</a>
+  </div>
+</header>
+<main id="top">
+  <section class="hero consult wrap">
+    <span class="eyebrow reveal">Consulting</span>
+    <h1 class="reveal">Extract data from your documents, on your own hardware.</h1>
+    <p class="hero-body reveal">We set up Sparrow on your infrastructure and run a pilot on your own documents.</p>
+    <div class="cta-row reveal">
+      <a class="btn btn-primary" data-contact href="#contact">Book a pilot call <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Try it live</a>
+    </div>
+  </section>
+  <section class="wrap sec problem">
+    <div class="prod-callout reveal">
+      <span class="eyebrow">The problem</span>
+      <blockquote>Critical data is locked in PDFs and scans, so people <em>retype it by hand</em>. Slow, costly, and easy to get wrong.</blockquote>
+    </div>
+  </section>
+  <section class="wrap sec">
+    <div class="sec-head reveal">
+      <span class="eyebrow">What we do</span>
+      <h2>From your documents to structured data in three steps.</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="num"><b>01</b> / Choose</div><h3>Pick a document type</h3><p>Start with one you handle every day.</p></div>
+      <div class="step"><div class="num"><b>02</b> / Set up</div><h3>We install Sparrow</h3><p>On your machines, so documents never leave your network.</p></div>
+      <div class="step"><div class="num"><b>03</b> / Pilot</div><h3>See the results</h3><p>We run a pilot on 20–50 of your documents and show you the structured results.</p></div>
+    </div>
+  </section>
+  <section class="wrap sec">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why local</span>
+      <h2>Your documents stay with you.</h2>
+    </div>
+    <div class="tiles">
+      <div class="tile reveal"><div class="idx">01</div><div class="mark"><svg viewBox="0 0 40 40" fill="none"><rect x="3" y="3" width="34" height="34" rx="9" stroke="var(--accent)" stroke-width="1.6"/><circle cx="20" cy="20" r="6.5" stroke="var(--accent)" stroke-width="1.6"/><path d="M20 13.5v13M13.5 20h13" stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round"/></svg></div><h3>Stays on your hardware</h3><p>Sparrow runs on your own machines. Nothing is sent to a cloud service.</p></div>
+      <div class="tile reveal"><div class="idx">02</div><div class="mark"><svg viewBox="0 0 40 40" fill="none"><rect x="5" y="5" width="13" height="13" rx="3.5" stroke="var(--accent)" stroke-width="1.6"/><rect x="22" y="5" width="13" height="13" rx="3.5" stroke="var(--accent)" stroke-width="1.6" opacity=".55"/><rect x="5" y="22" width="13" height="13" rx="3.5" stroke="var(--accent)" stroke-width="1.6" opacity=".55"/><rect x="22" y="22" width="13" height="13" rx="3.5" stroke="var(--accent)" stroke-width="1.6"/></svg></div><h3>Open source, no lock-in</h3><p>The code is public. You keep full control of the setup.</p></div>
+      <div class="tile reveal"><div class="idx">03</div><div class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M20 4l13 5v9c0 8-5.5 14-13 17C12.5 32 7 26 7 18V9l13-5z" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/><path d="M14.5 20.2l3.7 3.6 7.3-7.6" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Handles real documents</h3><p>Works on scans, tables, and mixed layouts, not just clean PDFs.</p></div>
+    </div>
+  </section>
+  <section class="wrap sec">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Documents we work with</span>
+      <h2>Built for document-heavy work.</h2>
+    </div>
+    <div class="dgrid reveal">
+      <a class="dcell" data-video href="#" target="_blank" rel="noopener"><span>Drilling reports</span><span class="watch"><i><svg viewBox="0 0 8 9"><path d="M0 0l8 4.5L0 9z"/></svg></i>Watch video</span></a>
+      <div class="dcell"><span>Lab results and referrals</span></div>
+      <div class="dcell"><span>Bills of lading and customs forms</span></div>
+      <div class="dcell"><span>Insurance claims</span></div>
+      <div class="dcell"><span>Utility and meter statements</span></div>
+      <div class="dcell"><span>Contracts and lease terms</span></div>
+      <div class="dcell"><span>Bank statements</span></div>
+      <div class="dcell"><span>Invoices</span></div>
+    </div>
+    <a class="playlist" id="playlistLink" href="#" target="_blank" rel="noopener" hidden>See all industry videos <span class="arrow">→</span></a>
+  </section>
+  <section class="wrap sec">
+    <div class="proof">
+      <div class="window reveal">
+        <div class="window-bar"><div class="dots"><i></i><i></i><i></i></div><div class="window-url">Drilling report extraction</div></div>
+        <div id="videoSlot"><div class="video-empty">Drilling report video</div></div>
+        <p class="vcap">Example: drilling reports</p>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Proof</span>
+        <div class="sec-head" style="margin-bottom:0"><h2>Open source and built in the open.</h2><p>Watch Sparrow extract a drilling report, or read every line of the code on GitHub.</p></div>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">GitHub</a>
+          <a class="stars" href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener" aria-label="GitHub stars"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.26 6.86.6-5.2 4.52 1.56 6.71L12 16.9l-6.12 3.69 1.56-6.71L2.24 8.86l6.86-.6z"/></svg><b>5,200</b> stars</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="wrap" id="contact">
+    <div class="final reveal">
+      <span class="eyebrow">Get started</span>
+      <h2>Want this on your documents?</h2>
+      <div class="cta-row"><a class="btn btn-primary" data-contact href="#contact">Book a pilot call <span class="arrow">→</span></a></div>
+      <p>Tell us the document type, and we will tell you what a pilot would look like.</p>
+    </div>
+  </section>
+</main>
+<footer>
+  <div class="wrap foot">
+    <a class="fbrand" href="index.html">
+      <svg class="brand-mark" aria-hidden="true"><use href="#katanaMark"></use></svg>
+      <b>Katana ML</b>
+    </a>
+    <div class="legal">
+      © 2026 Katana ML. Sparrow is open source under GPL v3.<br />
+      <a href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">katanaml/sparrow on GitHub</a>
+    </div>
+  </div>
+</footer>
+<script>
+  // ===== LINKS — edit these =====
+  // CONTACT_URL: a URL, or an email address (becomes a mailto with subject "Sparrow pilot enquiry").
+  // Default is assembled from parts so host email obfuscation can't rewrite it.
+  const CONTACT_URL = ['abaranovskis','redsamuraiconsulting.com'].join('@');
+  const YOUTUBE_URL = 'https://www.youtube.com/watch?v=YgOb2V0tOh0';   // drilling report video, e.g. https://www.youtube.com/watch?v=XXXX
+  const PLAYLIST_URL = 'https://www.youtube.com/playlist?list=PLMhQwmybML_A';  // leave empty to hide "See all industry videos"
+  // ==============================
+  const hdr=document.getElementById('hdr');
+  const onScroll=()=>hdr.classList.toggle('scrolled',window.scrollY>12);
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  const mb=document.getElementById('menuBtn'),mp=document.getElementById('mobilePanel');
+  mb.addEventListener('click',()=>{const open=mp.classList.toggle('open');mb.setAttribute('aria-expanded',open)});
+  mp.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mp.classList.remove('open');mb.setAttribute('aria-expanded','false')}));
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,4)*60)+'ms';io.observe(el)});
+
+  const isMail=/^[^\s@:\/]+@[^\s@\/]+$/.test(CONTACT_URL.replace(/^mailto:/,''));
+  const contactHref=isMail?'mail'+'to:'+CONTACT_URL.replace(/^mailto:/,'')+'?subject='+encodeURIComponent('Sparrow pilot enquiry'):CONTACT_URL;
+  document.querySelectorAll('[data-contact]').forEach(a=>{a.href=contactHref;if(!isMail){a.target='_blank';a.rel='noopener'}else{a.addEventListener('click',()=>{const addr=CONTACT_URL.replace(/^mailto:/,'');const done=()=>toast('Email copied: '+addr);if(navigator.clipboard){navigator.clipboard.writeText(addr).then(done,()=>toast('Email: '+addr))}else toast('Email: '+addr)})}});
+  function toast(t){let el=document.getElementById('toast');if(!el){el=document.createElement('div');el.id='toast';document.body.appendChild(el)}el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3200)}
+
+  document.querySelectorAll('a[data-video]').forEach(a=>{
+    if(YOUTUBE_URL){a.href=YOUTUBE_URL}
+    else{const d=document.createElement('div');d.className='dcell';d.innerHTML='<span>'+a.firstElementChild.textContent+'</span>';a.replaceWith(d)}
+  });
+  if(PLAYLIST_URL){const p=document.getElementById('playlistLink');p.href=PLAYLIST_URL;p.hidden=false}
+  if(YOUTUBE_URL){
+    const m=YOUTUBE_URL.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})/);
+    const slot=document.getElementById('videoSlot');
+    if(m){slot.innerHTML='<iframe class="video-frame" src="https://www.youtube-nocookie.com/embed/'+m[1]+'" title="Drilling report extraction video" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'}
+    else{slot.innerHTML='<a class="video-empty" href="'+YOUTUBE_URL+'" target="_blank" rel="noopener">Watch the drilling report video →</a>'}
+  }
+</script>
+</body>
+</html>

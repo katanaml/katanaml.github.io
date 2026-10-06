@@ -118,6 +118,12 @@
   .stars svg{width:15px;height:15px;fill:var(--accent)}
   .stars b{color:var(--text);font-weight:500}
 
+  .hero-consult{margin-top:26px;font-size:.98rem;color:var(--text-2)}
+  .hero-consult a{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:.35em;align-items:baseline}
+  .hero-consult b{color:var(--accent);font-weight:600;border-bottom:1px solid var(--accent-line)}
+  .hero-consult .arrow{color:var(--accent);transition:transform .2s}
+  .hero-consult a:hover .arrow{transform:translateX(3px)}
+  a{color:inherit}a:hover{color:inherit}
   /* ---------- WINDOW FRAME ---------- */
   .window{border:1px solid var(--border);border-radius:16px;background:var(--surface);overflow:hidden;
     box-shadow:var(--shadow);transition:transform .4s,box-shadow .4s}
@@ -294,6 +300,7 @@
     <nav class="nav-links">
       <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Sparrow</a>
       <a href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">GitHub</a>
+      <a href="consulting.html">Consulting</a>
       <a href="#contact">Contact</a>
       <a class="nav-cta" href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Try Sparrow</a>
     </nav>
@@ -302,6 +309,7 @@
   <div class="mobile-panel" id="mobilePanel">
     <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Sparrow</a>
     <a href="https://github.com/katanaml/sparrow" target="_blank" rel="noopener">GitHub</a>
+    <a href="consulting.html">Consulting</a>
     <a href="#contact">Contact</a>
     <a href="https://sparrow.katanaml.io" target="_blank" rel="noopener">Try Sparrow →</a>
   </div>
@@ -325,6 +333,7 @@
         <b id="starCount">5,200</b> stars
       </a>
     </div>
+    <p class="hero-consult reveal"><a href="consulting.html">Need it running on your own documents? <b>See consulting</b> <span class="arrow">→</span></a></p>
   </section>
 
   <!-- SECTION 2 — PRODUCT SCREENSHOT -->
