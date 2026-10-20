@@ -318,7 +318,9 @@
   .vcap{padding:12px 16px;border-top:1px solid var(--border);font-size:.86rem;color:var(--text-2);font-family:var(--font-mono)}
   #toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:12px 18px;border-radius:999px;font-size:.92rem;font-weight:500;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:100;max-width:calc(100vw - 32px);text-align:center}
   #toast.show{opacity:1;transform:translate(-50%,0)}
-  @media(min-width:900px){.dgrid{grid-template-columns:repeat(4,minmax(0,1fr))}.proof{grid-template-columns:1.25fr 1fr}}
+  .dtitle{display:flex;flex-direction:column;gap:8px}.ddesc{font-family:var(--font-sans);font-size:.84rem;font-weight:400;letter-spacing:0;line-height:1.4;color:var(--text-2)}
+  @media(min-width:381px) and (max-width:899px){.dgrid>.dcell:last-child:nth-child(odd){grid-column:1/-1}}
+  @media(min-width:900px){.dgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.proof{grid-template-columns:1.25fr 1fr}}
   @media(max-width:760px){.hero.consult h1{font-size:clamp(1.95rem,8.6vw,2.6rem)}.consult .cta-row,.final .cta-row{grid-template-columns:1fr;max-width:320px;margin-inline:auto}.proof .cta-row{grid-template-columns:auto auto;justify-content:start;margin-inline:0;max-width:none}.proof .cta-row .stars{grid-column:auto;margin-top:0}}
   @media(max-width:380px){.dgrid{grid-template-columns:1fr}.dcell{min-height:0}}
 </style>
@@ -393,8 +395,9 @@
       <h2>Built for document-heavy work.</h2>
     </div>
     <div class="dgrid reveal">
-      <a class="dcell" data-video href="#" target="_blank" rel="noopener"><span>Drilling reports</span><span class="watch"><i><svg viewBox="0 0 8 9"><path d="M0 0l8 4.5L0 9z"/></svg></i>Watch video</span></a>
+      <a class="dcell" data-video href="#" target="_blank" rel="noopener"><span class="dtitle">Drilling reports<small class="ddesc">Daily drilling reports: casing, surveys, time breakdown, operations</small></span><span class="watch"><i><svg viewBox="0 0 8 9"><path d="M0 0l8 4.5L0 9z"/></svg></i>Watch video</span></a>
       <div class="dcell"><span>Lab results and referrals</span></div>
+      <a class="dcell" href="https://www.youtube.com/watch?v=E89dQu9oxn8" target="_blank" rel="noopener noreferrer"><span class="dtitle">Radiology and imaging reports<small class="ddesc">MRI, CT and X-ray reports: findings, measurements, impressions</small></span><span class="watch"><i><svg viewBox="0 0 8 9"><path d="M0 0l8 4.5L0 9z"/></svg></i>Watch video</span></a>
       <div class="dcell"><span>Bills of lading and customs forms</span></div>
       <div class="dcell"><span>Insurance claims</span></div>
       <div class="dcell"><span>Utility and meter statements</span></div>
